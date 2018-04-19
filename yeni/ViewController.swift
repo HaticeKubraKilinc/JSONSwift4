@@ -1,25 +1,46 @@
-//
-//  ViewController.swift
-//  yeni
-//
-//  Created by hatice kübra kılınç on 15.04.2018.
-//  Copyright © 2018 hatice kübra kılınç. All rights reserved.
-//
+
 
 import UIKit
 
-class ViewController: UIViewController {
 
+struct login : Decodable {
+    let username : String
+    let password : String
+    let email : String
+    let fullname : String
+}
+
+class ViewController: UIViewController {
+    
+    var  users = [login]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        let jsonURL = "http://localhost/login/serviceX.php"
+        let url = URL(string: jsonURL)
+        
+        URLSession.shared.dataTask(with: url!) { (data, response, error) in
+            
+            do {
+                
+                self.users = try JSONDecoder().decode([login].self, from: data!)
+                
+                for eachUsers in self.users {
+                    print(eachUsers.username + " : " + eachUsers.password + " : ", eachUsers.email + " : " + eachUsers.fullname)
+                }
+                
+            }
+            catch {
+                print("Error")
+            }
+            
+            
+            }.resume()
     }
+    
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-
+    
+    
 }
-

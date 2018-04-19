@@ -1,0 +1,6 @@
+framework module Pods_yeni {
+  umbrella header "Pods-yeni-umbrella.h"
+
+  export *
+  module * { export * }
+}
